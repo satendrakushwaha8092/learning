@@ -9,8 +9,7 @@ const route = require('./index')
 
 const connectToDatabase = async () => {
   mongoose
-      // .connect('mongodb://localhost:27017/e-commerce')
-    .connect('mongodb://mongo:27017/mydatabase')
+    .connect('mongodb://localhost:27017/e-commerce')
     .then(() => {
       console.log("MongoDB Connected");
     })
