@@ -1,0 +1,19 @@
+{
+  "name": "e-commerce",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "amqplib": "^0.10.8",
+    "bullmq": "^5.58.1",
+    "express": "^5.1.0",
+    "mongoose": "^8.17.2",
+    "moongose": "^1.0.0",
+    "nodemon": "^3.1.10"
+  }
+}
