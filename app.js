@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require('express')
 const mongoose = require('mongoose')
 
@@ -6,21 +8,10 @@ const app = express()
 app.use(express.json());
 
 const route = require('./index')
-
-// Retrieve credentials from environment variables
-const dbUsername = process.env.DB_USERNAME || 'admin';
-const dbPassword = process.env.DB_PASSWORD || 'password';
-const dbHost = 'mongodb'; // Use the service name defined in docker-compose.yml
-const dbPort = '27017';
-const dbName = 'e-commerce';
-
-// Construct the authenticated connection string
-const mongoUri = `mongodb://${dbUsername}:${dbPassword}@${dbHost}:${dbPort}/${dbName}`;
-console.log(">>>>>>>>>>>>>>>>",mongoUri)
-
+console.log("connecting to ---------",process.env.MONGODB_URI)
 const connectToDatabase = async () => {
   mongoose
-    .connect(mongoUri)
+    .connect(process.env.MONGODB_URI)
     .then(() => {
       console.log("MongoDB Connected");
     })

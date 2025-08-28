@@ -1,28 +1,39 @@
 version: '3.8'
 
 services:
-  # Node.js application service
-  node-app:
+  app:
     build: .
-    restart: unless-stopped
+    container_name: node_app
+    restart: always
     ports:
       - "3000:3000"
     environment:
-      - MONGODB_URI=mongodb://mongo:27017/mydatabase
+      - PORT=3000
+      - MONGODB_URI=mongodb://mongo:27017/mydb
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     depends_on:
       - mongo
-  
-  # MongoDB database service
+      - redis
+
   mongo:
-    image: mongo:latest
-    container_name: mongo
-    restart: unless-stopped
+    image: mongo:6
+    container_name: mongo_db
+    restart: always
     ports:
       - "27017:27017"
     volumes:
-      - mongo-data:/data/db
-    # Add this command to bind MongoDB to all IPs
-    command: ["mongod", "--bind_ip_all"]
+      - mongo_data:/data/db
+
+  redis:
+    image: redis:7
+    container_name: redis_cache
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
 
 volumes:
-  mongo-data:
+  mongo_data:
+  redis_data:
