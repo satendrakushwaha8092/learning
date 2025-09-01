@@ -8,7 +8,7 @@ const app = express()
 app.use(express.json());
 
 const route = require('./index')
-console.log("connecting to ---------",process.env.MONGODB_URI)
+
 const connectToDatabase = async () => {
   mongoose
     .connect(process.env.MONGODB_URI)
