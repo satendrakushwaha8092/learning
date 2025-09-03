@@ -25,7 +25,11 @@ const connectToDatabase = async () => {
     });
 };
 
-connectToDatabase()
+// connectToDatabase()
+
+app.use('/health',(req,res)=>{
+    res.status(200).send({msg:"working fine"})
+})
 
 app.use('/v1',route)
 
