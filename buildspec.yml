@@ -5,6 +5,10 @@ phases:
     commands:
       - echo Installing dependencies...
       - npm install
+      - echo Installing Docker Compose...
+      - curl -L "https://github.com/docker/compose/releases/download/2.20.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+      - chmod +x /usr/local/bin/docker-compose
+      - docker-compose version
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
@@ -18,14 +22,13 @@ phases:
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
-      - echo Pushing Docker images to ECR...
+      - echo Pushing Docker images...
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - echo Creating imagedefinitions.json for ECS/EC2 deployment...
+      - echo Writing imagedefinitions.json...
       - printf '[{"name":"node_app","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 
 artifacts:
   files:
     - imagedefinitions.json
     - docker-compose.yml
-    - app.js
