@@ -2,13 +2,24 @@ version: 0.2
 
 phases:
   install:
+    runtime-versions:
+      nodejs: 18
     commands:
-      - echo "✅ Install phase running"
-      - node -v
-      - npm -v
-      - docker --version
-      - docker compose version || echo "⚠️ Docker Compose not installed"
+      - echo Installing dependencies...
+      - npm ci
+  pre_build:
+    commands:
+      - echo Running tests...
+      - npm test
   build:
     commands:
-      - echo "✅ Build phase running"
-      - echo "Hello from CodeBuild"
+      - echo Build step (if any)
+      - npm run build || true
+  post_build:
+    commands:
+      - echo Packaging artifact for CodeDeploy...
+      - zip -r deploy-package.zip . -x node_modules/\* \.git\*
+artifacts:
+  files:
+    - deploy-package.zip
+  discard-paths: yes
